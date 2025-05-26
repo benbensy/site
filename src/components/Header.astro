@@ -1,26 +1,56 @@
 ---
 import NavLink from './NavLink.astro'
+
+const links = [
+  {
+    href: '/',
+    icon: 'gg:home-alt',
+    text: '首页',
+  },
+  {
+    href: '/blog',
+    icon: 'gg:notes',
+    text: '博客',
+  },
+  {
+    href: '/projects',
+    icon: 'gg:code',
+    text: '项目',
+  },
+  {
+    href: '/about',
+    icon: 'gg:info',
+    text: '关于',
+  },
+  {
+    href: '/links',
+    icon: 'gg:link',
+    text: '友链',
+  },
+]
 ---
 
 <div class:list={['header', 'on-top']}>
   <a href="/" class="brand">
-    <!-- <div class="logo-wrap">
+    <div class="logo-wrap">
       <img class="logo" src="/yanami.jpg" alt="Logo" />
-    </div> -->
+    </div>
     <span class="brand-text">Indusy's Site</span>
   </a>
   <div class="header-links">
-    <NavLink href="/" icon="gg:home-alt">首页</NavLink>
-    <NavLink href="/blog" icon="gg:notes">博客</NavLink>
-
-    <NavLink href="/about" icon="gg:info">关于</NavLink>
-    <NavLink href="/links" icon="gg:link">友链</NavLink>
+    {
+      links.map((link) => (
+        <NavLink href={link.href} icon={link.icon}>
+          {link.text}
+        </NavLink>
+      ))
+    }
   </div>
 </div>
 
 <style>
   .header {
-    @apply sticky top-0 z-50 w-full flex flex-row justify-between items-center px-16 py-4 transition-all duration-300 bg-white/20 backdrop-blur-md;
+    @apply sticky top-0 z-50 w-full flex flex-row justify-between items-center px-16 py-4 transition-all duration-300 bg-white/50 backdrop-blur-md;
   }
 
   .header.on-top {

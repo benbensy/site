@@ -1,0 +1,70 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+type Props = HTMLAttributes<'div'> & {
+  logo: string | undefined
+  title: string
+  description: string
+  url: string
+}
+
+const { logo, title, description, url, class: className, ...props } = Astro.props
+---
+
+<div class:list={['link-card', className]} {...props}>
+  <a href={url} class="link-card-content" target="_blank" rel="noopener noreferrer">
+    {logo && <img class="link-logo" src={logo} alt={title} />}
+    <div class="link-info">
+      <h2 class="link-title">{title}</h2>
+      <p class="link-description">{description}</p>
+    </div>
+  </a>
+</div>
+
+<style>
+  .link-card {
+    @apply w-full h-full transition-all duration-300 ease-out relative;
+  }
+
+  .link-card-content {
+    @apply overflow-hidden p-6 rounded bg-white transition-all duration-300 ease-out flex flex-row gap-4 z-0;
+  }
+
+  .link-card-content > * {
+    @apply z-1;
+  }
+
+  .link-card-content::after {
+    content: '';
+    @apply absolute inset-0 z-0 transition-all duration-300 ease-out w-0;
+  }
+
+  .link-card-content:hover::after {
+    @apply bg-sky-500/80 w-full;
+  }
+
+  .link-card:hover .link-card-content {
+    @apply -translate-y-1;
+  }
+
+  .link-card:hover .link-title,
+  .link-card:hover .link-description {
+    @apply text-white/90;
+  }
+
+  .link-logo {
+    @apply w-12 h-12;
+  }
+
+  .link-info {
+    @apply flex flex-col;
+  }
+
+  .link-title {
+    @apply text-xl font-bold;
+  }
+
+  .link-description {
+    @apply text-gray-600;
+  }
+</style>

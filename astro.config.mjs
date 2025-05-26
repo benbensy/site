@@ -7,7 +7,6 @@ import { transformerDirectives, transformerVariantGroup } from 'unocss'
 import unocss from 'unocss/astro'
 import presetWind3 from 'unocss/preset-wind3'
 import tsConfigPaths from 'vite-tsconfig-paths'
-
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',

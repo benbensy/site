@@ -32,12 +32,7 @@ body {
   @apply w-screen h-screen bg-fixed bg-cover bg-no-repeat text-gray-700;
   font-family: 'Noto Sans SC Variable', sans-serif;
   scroll-behavior: smooth;
-  /* background-image: url('/background.jpg'); */
   background-image: url('https://butanediol.me/randpic');
-}
-
-#root {
-  @apply w-full h-full bg-white/90 overflow-auto;
 }
 
 code {
