@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+type Props = HTMLAttributes<'div'> & {
+  title?: string
+}
+
+const { title, class: className, ...props } = Astro.props
+---
+
+<div class:list={['panel', className]} {...props}>
+  {title && <h2 class="panel-title">{title}</h2>}
+  <div class="panel-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .panel {
+    @apply bg-white rounded-lg overflow-hidden transition-all duration-200;
+  }
+
+  .panel-title {
+    @apply text-xl font-semibold px-6 py-4 border-b border-slate-100 bg-slate-50;
+  }
+</style>

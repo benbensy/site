@@ -1,0 +1,39 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<button class="to-top">
+  <Icon name="gg:arrow-up" color="white" />
+</button>
+
+<script>
+  const toTopEl = document.querySelector('.to-top')
+  const rootEl = document.getElementById('root')
+
+  rootEl?.addEventListener('scroll', () => {
+    if (rootEl) {
+      if (rootEl.scrollTop > 300) {
+        toTopEl?.classList.remove('hidden')
+      } else {
+        toTopEl?.classList.add('hidden')
+      }
+    }
+  })
+
+  toTopEl?.addEventListener('click', () => {
+    rootEl?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  })
+</script>
+<style>
+  .to-top {
+    @apply fixed bottom-8 right-8 bg-sky-700 p-2 hover:(shadow-lg bg-sky-600);
+    z-index: 50;
+  }
+
+  .to-top.hidden {
+    @apply hidden;
+  }
+</style>

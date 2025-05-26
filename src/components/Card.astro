@@ -1,0 +1,19 @@
+<div class="card">
+  <div class="card-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .card {
+    @apply h-full transition-all duration-300 ease-out;
+  }
+
+  .card-content {
+    @apply overflow-hidden p-6 rounded bg-white ring-2 ring-slate-200 transition-all duration-300 ease-out h-full;
+  }
+
+  .card:hover .card-content {
+    @apply ring-slate-300;
+  }
+</style>

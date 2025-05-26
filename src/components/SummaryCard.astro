@@ -1,0 +1,75 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { Icon } from 'astro-icon/components'
+import FormattedDate from '@/components/FormattedDate.astro'
+
+type Props = HTMLAttributes<'div'> & {
+  title: string
+  id: string
+  cover?: string
+  summary: string
+  date: Date
+}
+
+const { class: className, title, id, cover, summary, date, ...props } = Astro.props
+---
+
+<div class:list={['summary-card', className]} {...props}>
+  <a href={`/blog/${id}`} class="summary-card-cover">
+    <img src={cover || '/placeholder.jpg'} alt={title} loading="lazy" />
+  </a>
+  <div class="summary-card-content">
+    <h2 class="summary-card-title">
+      <a href={`/blog/${id}`}>{title}</a>
+    </h2>
+    <p class="summary-card-summary">
+      <a href={`/blog/${id}`}>{summary}</a>
+    </p>
+    <div class="summary-card-meta">
+      <div class="summary-card-meta-date">
+        <Icon size="18" name="gg:calendar" />
+        <FormattedDate date={date} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .summary-card {
+    @apply bg-white rounded-lg overflow-hidden transition-all duration-300;
+    @apply flex flex-col md:flex-row;
+  }
+
+  .summary-card-cover {
+    @apply overflow-hidden rounded-t-lg md:w-1/3 flex-shrink-0;
+  }
+
+  .summary-card-cover img {
+    @apply h-full w-full object-cover transition-transform duration-300;
+    @apply hover:scale-105;
+  }
+
+  .summary-card-content {
+    @apply p-6 transition-colors duration-200;
+  }
+
+  .summary-card-meta {
+    @apply flex items-center gap-2 text-sm text-gray-500 mb-2;
+  }
+
+  .summary-card-title {
+    @apply text-xl font-bold text-gray-800 mb-2;
+    @apply transition-colors hover:text-sky-600;
+  }
+
+  .summary-card-summary {
+    @apply text-gray-600 mb-4 overflow-hidden hover:text-sky-600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .summary-card-meta-date {
+    @apply flex flex-row items-center gap-1;
+  }
+</style>

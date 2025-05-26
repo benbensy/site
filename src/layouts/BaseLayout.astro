@@ -1,0 +1,29 @@
+---
+import BaseHead from '@/components/BaseHead.astro'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import ToTop from '@/components/ToTop.astro'
+import '@/styles/global.css'
+---
+
+<html lang="en">
+  <head>
+    <BaseHead />
+  </head>
+  <body>
+    <div id="root">
+      <Header />
+      <div class="main-content">
+        <slot />
+      </div>
+      <Footer />
+    </div>
+    <ToTop />
+  </body>
+</html>
+
+<style>
+  #root {
+    @apply w-full h-full bg-white/90 overflow-auto;
+  }
+</style>
