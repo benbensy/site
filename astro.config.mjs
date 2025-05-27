@@ -18,4 +18,9 @@ export default defineConfig({
   vite: {
     plugins: [tsConfigPaths()],
   },
+  markdown: {
+    shikiConfig: {
+      theme: 'github-light'
+    }
+  }
 })

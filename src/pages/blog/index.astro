@@ -10,28 +10,23 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueO
 ---
 
 <BaseLayout>
-  <div class="">
-    <Banner title="偶戏大呢" subtitle="A blog about programming and life" />
-    <div class="flex flex-row justify-center gap-4 relative max-w-7xl mx-auto">
-      <Panel class="w-full mx-auto">
-        <div class="flex flex-col gap-4 px-20 py-8">
-          {
-            posts.map((post) => (
-              <SummaryCard
-                title={post.data.title}
-                id={post.id}
-                cover={post.data.heroImage}
-                summary={post.data.description}
-                date={post.data.pubDate}
-              />
-            ))
-          }
-        </div>
-      </Panel>
-      <div class="w-full flex flex-col gap-4 flex-1 sticky top-0">
-        <Panel class="w-full">
-          <div class="flex flex-col gap-4 px-20 py-8">
-            <h2 class="text-2xl font-bold">About</h2>
+  <div class="min-h-screen flex flex-col">
+    <Banner title="文章列表" />
+    <div class="flex flex-row justify-center gap-6 px-4 py-8 max-w-7xl mx-auto flex-grow">
+      <div class="w-full">
+        <Panel>
+          <div class="flex flex-col gap-6 p-6 md:p-8">
+            {
+              posts.map((post) => (
+                <SummaryCard
+                  title={post.data.title}
+                  id={post.id}
+                  cover={post.data.heroImage}
+                  summary={post.data.description}
+                  date={post.data.pubDate}
+                />
+              ))
+            }
           </div>
         </Panel>
       </div>

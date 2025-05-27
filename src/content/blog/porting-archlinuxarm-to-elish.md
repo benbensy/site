@@ -160,7 +160,11 @@ flavour: 你可以在 main 目录找到一些以 flavour 为前缀的包，这�
 ## 参考链接
 
 [ttps://kupfer.gitlab.io/](https://kupfer.gitlab.io/)
+
 [https://xunflash.top/archives/porting_2_kupfer.html](https://xunflash.top/archives/porting_2_kupfer.html)
+
 [https://gitlab.com/kupfer/packages/pkgbuilds/](https://gitlab.com/kupfer/packages/pkgbuilds/)
+
 [https://gitlab.com/jianhua000/pkgbuilds/](https://gitlab.com/jianhua000/pkgbuilds/)
+
 [https://wiki.postmarketos.org/wiki/Devices](https://wiki.postmarketos.org/wiki/Devices)
