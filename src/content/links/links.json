@@ -1,27 +1,27 @@
 [
   {
-    "id": "butanediol",
+    "slug": "butanediol",
     "title": "丁丁的店",
     "url": "https://blog.butanediol.me",
     "description": "不到 24 岁 / 是学生 / 太怪了",
     "logo": "https://blog.butanediol.me/media/avatar.png"
   },
   {
-    "id": "yanren",
+    "slug": "yanren",
     "title": "炎忍的博客",
     "url": "https://imyan.ren",
     "description": "心之所愿，无所不成",
     "logo": "https://avatars.githubusercontent.com/u/25337480?v=4"
   },
   {
-    "id": "freesia",
+    "slug": "freesia",
     "title": "Freesia's Blog",
     "url": "https://blog.freesia.icu",
     "description": "前端菜只因",
     "logo": "https://blog.freesia.icu/assets/images/me.jpg"
   },
   {
-    "id": "ddc",
+    "slug": "ddc",
     "title": "DDCのBlog",
     "url": "https://blog.heimao.icu",
     "description": "一个一个前端",

@@ -28,10 +28,13 @@
   background: var(--scrollbar-thumb-hover);
 }
 
-body {
-  @apply w-screen h-screen bg-fixed bg-cover bg-no-repeat text-gray-700;
+html {
+  @apply w-screen h-screen text-gray-700 overflow-y-auto scroll-smooth scroll-p-t-20;
   font-family: 'Noto Sans SC Variable', sans-serif;
-  scroll-behavior: smooth;
+}
+
+body {
+  @apply w-full h-full bg-fixed bg-cover bg-no-repeat;
   background-image: url('https://butanediol.me/randpic');
 }
 

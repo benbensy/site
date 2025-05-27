@@ -1,0 +1,205 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+interface Heading {
+  depth: number
+  slug: string
+  text: string
+}
+
+type Props = HTMLAttributes<'div'> & {
+  headings: Heading[]
+  maxDepth?: number
+}
+
+interface NestedTocItem extends Heading {
+  children: NestedTocItem[]
+}
+
+const { headings, maxDepth = 3, class: className, ...props } = Astro.props
+
+const filteredHeadings = headings.filter((heading) => heading.depth <= maxDepth)
+
+function nestHeadings(items: Heading[]): NestedTocItem[] {
+  const result: NestedTocItem[] = []
+  const stack: NestedTocItem[] = []
+
+  for (const item of items) {
+    const node: NestedTocItem = { ...item, children: [] }
+
+    // Find the appropriate parent in the stack
+    while (stack.length > 0 && item.depth <= stack[stack.length - 1].depth) {
+      stack.pop()
+    }
+
+    if (stack.length === 0) {
+      // Top-level item
+      result.push(node)
+    } else {
+      // Add as child of the last item in stack
+      stack[stack.length - 1].children.push(node)
+    }
+
+    // Push current node to stack for potential children
+    stack.push(node)
+  }
+
+  return result
+}
+
+const nestedHeadings = nestHeadings(filteredHeadings)
+---
+
+<nav class:list={['toc', className]} {...props}>
+  <h3 class="toc-title">目录</h3>
+  <ul class="toc-list">
+    {
+      nestedHeadings.map((heading) => (
+        <li class="toc-item">
+          <a
+            href={`#${heading.slug}`}
+            class="toc-link toc-link-level-1"
+            style={`--indent: ${(heading.depth - 1) * 0.75}rem`}
+          >
+            {heading.text}
+          </a>
+          {heading.children?.length > 0 && (
+            <ul class="toc-sublist">
+              {heading.children.map((child) => (
+                <li class="toc-item">
+                  <a
+                    href={`#${child.slug}`}
+                    class="toc-link toc-link-level-2"
+                    style={`--indent: ${(child.depth - 2) * 0.75}rem`}
+                  >
+                    {child.text}
+                  </a>
+                  {child.children?.length > 0 && (
+                    <ul class="toc-sublist">
+                      {child.children.map((subChild) => (
+                        <li class="toc-item">
+                          <a
+                            href={`#${subChild.slug}`}
+                            class="toc-link toc-link-level-3"
+                            style={`--indent: ${(subChild.depth - 2) * 0.75}rem`}
+                          >
+                            {subChild.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .toc {
+    @apply w-64;
+  }
+
+  .toc-title {
+    @apply text-lg font-semibold mb-3 text-gray-800;
+  }
+
+  .toc-list {
+    @apply space-y-1.5;
+  }
+
+  .toc-sublist {
+    @apply mt-1.5 space-y-1.5;
+  }
+
+  .toc-item {
+    @apply list-none;
+  }
+
+  .toc-link {
+    @apply block py-1 border-l-2 border-transparent rounded-r transition-colors;
+    padding-left: calc(var(--indent) + 0.5rem);
+    margin-left: 0.5rem;
+  }
+
+  .toc-link-level-1 {
+    @apply text-sm text-gray-600 hover:text-sky-500;
+  }
+
+  .toc-link-level-2 {
+    @apply text-sm text-gray-500 hover:text-sky-500;
+  }
+
+  .toc-link-level-3 {
+    @apply text-xs text-gray-400 hover:text-sky-500;
+  }
+
+  .toc-link:hover {
+    @apply border-sky-500 bg-sky-50/50;
+  }
+
+  .toc-item.active > .toc-link {
+    @apply border-sky-500 bg-sky-50/50 text-sky-600;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toc = document.querySelector('.toc')
+
+    const links = Array.from(toc!.querySelectorAll('.toc-link[href^="#"]'))
+
+    const headers = links
+      .map((link) => {
+        const id = link.getAttribute('href')?.substring(1)
+        if (!id) return null
+        const element = document.getElementById(id)
+        return element ? { element, link } : null
+      })
+      .filter(Boolean)
+
+    const remInPixels = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
+    const topMargin = -5 * remInPixels
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting)
+
+        if (visibleEntry) {
+          const activeId = visibleEntry.target.id
+          const activeLink = links.find((link) => link.getAttribute('href') === `#${activeId}`)
+
+          if (activeLink) {
+            links.forEach((link) => link.parentElement?.classList.remove('active'))
+            activeLink.parentElement?.classList.add('active')
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: `${topMargin}px 0px -70% 0px`,
+        threshold: 0.1,
+      },
+    )
+
+    headers.forEach((header) => {
+      if (header?.element) {
+        observer.observe(header.element)
+      }
+    })
+
+    const firstHeader = headers[0]?.element
+    if (firstHeader) {
+      const firstLink = links.find((link) => link.getAttribute('href') === `#${firstHeader.id}`)
+      firstLink?.parentElement?.classList.add('active')
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  })
+</script>

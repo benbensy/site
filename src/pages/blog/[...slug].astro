@@ -1,10 +1,10 @@
 ---
+import { getCollection, render } from 'astro:content'
 import Article from '@/components/Article.astro'
 import Banner from '@/components/Banner.astro'
 import Panel from '@/components/Panel.astro'
+import Toc from '@/components/Toc.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { type CollectionEntry, getCollection } from 'astro:content'
-import { render } from 'astro:content'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -13,10 +13,17 @@ export async function getStaticPaths() {
     props: post,
   }))
 }
-type Props = CollectionEntry<'blog'>
 
 const post = Astro.props
 const { Content } = await render(post)
+
+type Heading = {
+  depth: number
+  slug: string
+  text: string
+}
+
+const headings = post.rendered?.metadata?.headings as Heading[] | undefined
 ---
 
 <BaseLayout>
@@ -28,6 +35,11 @@ const { Content } = await render(post)
           <Content />
         </Article>
       </Panel>
+      <div class="hidden lg:block lg:w-1/3">
+        <div class="sticky top-24 self-start">
+          <Toc headings={headings!} />
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout>

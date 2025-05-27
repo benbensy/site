@@ -2,38 +2,48 @@
 import { Icon } from 'astro-icon/components'
 ---
 
-<button class="to-top">
-  <Icon name="gg:arrow-up" color="white" />
+<button class="to-top hidden" aria-label="Scroll to top">
+  <Icon name="gg:arrow-up" color="white" width="24" height="24" />
 </button>
 
 <script>
-  const toTopEl = document.querySelector('.to-top')
-  const rootEl = document.getElementById('root')
+  document.addEventListener('DOMContentLoaded', () => {
+    const toTopEl = document.querySelector('.to-top')
+    if (!toTopEl) return
 
-  rootEl?.addEventListener('scroll', () => {
-    if (rootEl) {
-      if (rootEl.scrollTop > 300) {
-        toTopEl?.classList.remove('hidden')
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        toTopEl.classList.remove('hidden')
       } else {
-        toTopEl?.classList.add('hidden')
+        toTopEl.classList.add('hidden')
       }
     }
-  })
 
-  toTopEl?.addEventListener('click', () => {
-    rootEl?.scrollTo({
-      top: 0,
-      behavior: 'smooth',
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    toTopEl.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
     })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   })
 </script>
+
 <style>
   .to-top {
-    @apply fixed bottom-8 right-8 bg-sky-700 p-2 hover:(shadow-lg bg-sky-600);
-    z-index: 50;
+    @apply fixed bottom-8 right-8 w-12 h-12 bg-sky-600 rounded-full shadow-lg
+           hover:bg-sky-700 transition-all duration-200 flex items-center
+           justify-center z-50 opacity-90 hover:opacity-100;
   }
 
   .to-top.hidden {
-    @apply hidden;
+    @apply opacity-0 pointer-events-none;
   }
 </style>

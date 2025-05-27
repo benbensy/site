@@ -11,20 +11,20 @@ import '@/styles/global.css'
     <BaseHead />
   </head>
   <body>
-    <div id="root">
+    <div class="root">
       <Header />
       <div class="main-content">
         <slot />
       </div>
       <Footer />
+      <ToTop />
     </div>
-    <ToTop />
   </body>
 </html>
 
 <style>
-  #root {
-    @apply bg-white/85 overflow-auto flex flex-col justify-between w-full h-full bg-white/90 overflow-auto;
+  .root {
+    @apply bg-white/85 flex flex-col min-h-screen;
   }
 
   .main-content {

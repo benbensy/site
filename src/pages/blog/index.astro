@@ -1,10 +1,10 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
-import Panel from '@/components/Panel.astro'
-import SummaryCard from '@/components/SummaryCard.astro'
-
 import { getCollection } from 'astro:content'
 import Banner from '@/components/Banner.astro'
+import Panel from '@/components/Panel.astro'
+
+import SummaryCard from '@/components/SummaryCard.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 ---

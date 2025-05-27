@@ -85,16 +85,46 @@ const links = [
 </style>
 
 <script>
-  const rootEl = document.getElementById('root')
-  const headerEl = document.querySelector('.header')
+  document.addEventListener('DOMContentLoaded', () => {
+    const headerEl = document.querySelector('.header') as HTMLElement
+    if (!headerEl) return
 
-  rootEl?.addEventListener('scroll', () => {
-    if (rootEl) {
-      if (rootEl.scrollTop === 0) {
-        headerEl?.classList.add('on-top')
+    const updateHeaderState = () => {
+      if (window.scrollY === 0) {
+        headerEl.classList.add('on-top')
       } else {
-        headerEl?.classList.remove('on-top')
+        headerEl.classList.remove('on-top')
       }
+    }
+
+    const handleHashNavigation = () => {
+      const { hash } = window.location
+      if (hash) {
+        const targetEl = document.querySelector(hash)
+        if (targetEl) {
+          requestAnimationFrame(() => {
+            const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
+            const headerHeight = headerEl.offsetHeight
+            const scrollPosition = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 2 * rem
+
+            window.scrollTo({
+              top: scrollPosition,
+              behavior: 'auto',
+            })
+
+            updateHeaderState()
+          })
+        }
+      }
+    }
+
+    updateHeaderState()
+    handleHashNavigation()
+
+    window.addEventListener('scroll', updateHeaderState, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', updateHeaderState)
     }
   })
 </script>

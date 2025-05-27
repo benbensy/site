@@ -19,9 +19,7 @@ const { class: className, ...props } = Astro.props
 <style>
   .article :global(h1, h2, h3, h4, h5, h6) {
     @apply font-500 relative;
-  }
-
-  .article :global(h1::before, h2::before, h3::before, h4::before, h5::before, h6::before) {
+    scroll-snap-align: start;
   }
 
   .article :global(h1) {
