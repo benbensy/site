@@ -35,7 +35,7 @@ html {
 
 body {
   @apply w-full h-full bg-fixed bg-cover bg-no-repeat;
-  background-image: url('https://butanediol.me/randpic');
+  background-image: url('https://rand-pics.indusy.workers.dev/api/random');
 }
 
 code {
